@@ -1,4 +1,5 @@
 import instance from ".";
+import jwt_decode from "jwt-decode";
 
 const register = async (userInfo) => {
   try {
@@ -6,7 +7,7 @@ const register = async (userInfo) => {
     for (const key in userInfo) formData.append(key, userInfo[key]);
 
     const { data } = await instance.post("/api/auth/v3/register", formData);
-    // storeToken(data.token);
+    storeToken(data.token);
     return data;
   } catch (error) {
     console.log(error);
@@ -16,7 +17,7 @@ const register = async (userInfo) => {
 const login = async (userInfo) => {
   try {
     const { data } = await instance.post("/api/auth/v3/login", userInfo);
-    // storeToken(data.token);
+    storeToken(data.token);
     return data;
   } catch (error) {
     console.log(error);
@@ -36,4 +37,20 @@ const storeToken = (token) => {
   localStorage.setItem("token", token);
 };
 
-export { register, login, profile, storeToken };
+const checkToken = () => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    const decode = jwt_decode(token);
+    const cureentTime = Date.now() / 1000;
+    if (decode.exp < cureentTime) {
+      localStorage.removeItem("token");
+      return false;
+    }
+    return true;
+  }
+  return false;
+};
+const logout = () => {
+  localStorage.removeItem("token");
+};
+export { register, login, profile, storeToken, checkToken, logout };

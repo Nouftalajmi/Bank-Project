@@ -17,6 +17,7 @@ const Register = () => {
   const { mutate: registerFun } = useMutation({
     mutationFn: () => register(userInfo),
   });
+
   const handleFormSubmit = (e) => {
     e.preventDefault();
     registerFun();
