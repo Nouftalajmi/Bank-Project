@@ -25,31 +25,32 @@ const Login = () => {
   };
 
   if (user) {
-    return <Navigate to="/" />;
+    return <Navigate to="/main" />;
   }
 
   return (
-    <div className="bg-white min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
-      <div className="max-w-md w-full px-6 py-8 bg-slate-500 rounded-md shadow-md">
+    <div className="bg-gray-900 min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
+      <div className="max-w-md w-full px-6 py-8 bg-gray-800 rounded-md shadow-md">
         <h2 className="text-3xl text-white font-semibold mb-6">Login</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
             <label
-              htmlFor="email"
+              htmlFor="username"
               className="block text-white text-sm font-medium mb-2"
             >
-              Email
+              UserName
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              id="username"
+              name="username"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
-          <div className="mb-6">
+
+          <div className="mb-4">
             <label
               htmlFor="password"
               className="block text-white text-sm font-medium mb-2"
@@ -57,14 +58,15 @@ const Login = () => {
               Password
             </label>
             <input
-              name="password"
               type="password"
               id="password"
+              name="password"
               onChange={handleChange}
               className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
+
           <div className="flex justify-center">
             <button
               type="submit"

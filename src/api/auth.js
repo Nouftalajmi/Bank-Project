@@ -6,7 +6,7 @@ const register = async (userInfo) => {
     const formData = new FormData();
     for (const key in userInfo) formData.append(key, userInfo[key]);
 
-    const { data } = await instance.post("/api/auth/v3/register", formData);
+    const { data } = await instance.post("/auth/v3/register", formData);
     storeToken(data.token);
     return data;
   } catch (error) {
@@ -16,7 +16,7 @@ const register = async (userInfo) => {
 
 const login = async (userInfo) => {
   try {
-    const { data } = await instance.post("/api/auth/v3/login", userInfo);
+    const { data } = await instance.post("/auth/v3/login", userInfo);
     storeToken(data.token);
     return data;
   } catch (error) {
@@ -26,7 +26,7 @@ const login = async (userInfo) => {
 
 const profile = async () => {
   try {
-    const { data } = await instance.get("/api/auth/v3/profile");
+    const { data } = await instance.get("/auth/v3/profile");
     return data;
   } catch (error) {
     console.log(error);
@@ -54,3 +54,4 @@ const logout = () => {
   localStorage.removeItem("token");
 };
 export { register, login, profile, storeToken, checkToken, logout };
+// profile, storeToken, checkToken, logout
