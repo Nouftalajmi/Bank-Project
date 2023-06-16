@@ -11,11 +11,15 @@ const Login = () => {
     setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
   const [user, setUser] = useContext(UserContext);
-
+  const [error, setError] = useState("");
   const { mutate: loginFun } = useMutation({
     mutationFn: () => login(userInfo),
-    onSuccess: () => {
-      setUser(true);
+    onSuccess: (data) => {
+      if (data.access) {
+        setUser(true);
+      } else {
+        setError(data);
+      }
     },
   });
 
@@ -29,8 +33,8 @@ const Login = () => {
   }
 
   return (
-    <div className="bg-gray-900 min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
-      <div className="max-w-md w-full px-6 py-8 bg-gray-800 rounded-md shadow-md">
+    <div className="bg-white min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
+      <div className="max-w-md w-full px-6 py-8 bg-gray-400 rounded-md shadow-md">
         <h2 className="text-3xl text-white font-semibold mb-6">Login</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
@@ -45,7 +49,7 @@ const Login = () => {
               id="username"
               name="username"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -62,12 +66,13 @@ const Login = () => {
               id="password"
               name="password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
 
           <div className="flex justify-center">
+            {error && <p className="text-red-500">{error.message}</p>}
             <button
               type="submit"
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"

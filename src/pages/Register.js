@@ -1,10 +1,13 @@
 import { useMutation } from "@tanstack/react-query";
 import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { register } from "../api/auth";
-
+import UserContext from "../context/UserContext";
+import { Navigate } from "react-router-dom";
 const Register = () => {
   const [userInfo, setUserInfo] = useState({});
+
+  const [user, setUser] = useContext(UserContext);
 
   const handleChange = (e) => {
     if (e.target.name === "image") {
@@ -16,16 +19,21 @@ const Register = () => {
 
   const { mutate: registerFun } = useMutation({
     mutationFn: () => register(userInfo),
+    onSuccess: () => {
+      setUser(true);
+    },
   });
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     registerFun();
   };
-
+  if (user) {
+    return <Navigate to="/main" />;
+  }
   return (
-    <div className="bg-gray-900 min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
-      <div className="max-w-md w-full px-6 py-8 bg-gray-800 rounded-md shadow-md">
+    <div className="bg-white min-h-screen flex items-center justify-center absolute inset-0 z-[-1]">
+      <div className="max-w-md w-full px-6 py-8 bg-gray-400 rounded-md shadow-md">
         <h2 className="text-3xl text-white font-semibold mb-6">Register</h2>
         <form onSubmit={handleFormSubmit}>
           <div className="mb-4">
@@ -40,7 +48,7 @@ const Register = () => {
               id="username"
               name="username"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -57,7 +65,7 @@ const Register = () => {
               id="password"
               name="password"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-4 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
           </div>
@@ -73,7 +81,7 @@ const Register = () => {
               id="image"
               name="image"
               onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-700 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
+              className="w-full px-4 py-2 border border-gray-500 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-white"
               required
             />
           </div>

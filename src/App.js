@@ -34,7 +34,7 @@ function App() {
           <Route path="/my-details" element={<MyDetails />} />
           <Route path="/my-transactions" element={<MyTransactions />} />
           <Route path="/deposits" element={<Deposit />} />
-          <Route path="/transfer" element={<Transfer />} />
+          <Route path="/transfer/:username" element={<Transfer />} />
           <Route path="/withdraw" element={<Withdraw />} />
         </Routes>
       </UserContext.Provider>
